@@ -23,9 +23,11 @@ export class CreateStatementUseCase {
     }
 
     if(type === 'withdraw') {
-      const { balance } = await this.statementsRepository.getUserBalance({ user_id });
+      const { balance:bugBalance } = await this.statementsRepository.getUserBalance({ user_id });
 
-      if (balance < amount) {
+      const balance = parseInt(bugBalance+"")
+
+      if (balance < amount || isNaN(balance)) {
         throw new CreateStatementError.InsufficientFunds()
       }
     }
